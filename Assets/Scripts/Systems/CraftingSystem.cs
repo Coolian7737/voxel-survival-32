@@ -5,12 +5,7 @@ namespace VoxelPrototype
 {
     public class CraftingSystem : MonoBehaviour
     {
-        private readonly Dictionary<string, int> inventory = new Dictionary<string, int>
-        {
-            { "wood", 4 },
-            { "stone", 2 },
-            { "fiber", 1 }
-        };
+        private readonly Dictionary<string, int> inventory = new Dictionary<string, int>();
 
         private readonly Dictionary<string, Dictionary<string, int>> recipes = new Dictionary<string, Dictionary<string, int>>
         {

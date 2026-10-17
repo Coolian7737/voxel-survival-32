@@ -6,8 +6,8 @@ namespace VoxelPrototype
     {
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float maxHunger = 100f;
-        [SerializeField] private float healthDrainRate = 1.2f;
         [SerializeField] private float hungerDrainRate = 0.6f;
+        [SerializeField] private float damageFromStarvation = 1.5f;
 
         private float currentHealth;
         private float currentHunger;
@@ -27,7 +27,7 @@ namespace VoxelPrototype
 
             if (currentHunger <= 0f)
             {
-                currentHealth = Mathf.Max(0f, currentHealth - healthDrainRate * Time.deltaTime);
+                currentHealth = Mathf.Max(0f, currentHealth - damageFromStarvation * Time.deltaTime);
             }
 
             if (currentHealth <= 0f)

@@ -37,6 +37,13 @@ namespace VoxelPrototype
                 if (boss != null)
                 {
                     boss.TakeDamage(attackDamage);
+                    continue;
+                }
+
+                var resourceNode = hit.GetComponent<ResourceNode>();
+                if (resourceNode != null)
+                {
+                    resourceNode.Harvest();
                 }
             }
         }

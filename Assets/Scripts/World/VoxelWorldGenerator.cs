@@ -9,28 +9,26 @@ namespace VoxelPrototype
         [SerializeField] private int chunkSize = 16;
         [SerializeField] private int renderRadius = 2;
         [SerializeField] private int maxHeight = 10;
-        [SerializeField] private float noiseScale = 0.14f;
+        [SerializeField] private float noiseScale = 0.12f;
 
         [Header("References")]
         [SerializeField] private Transform player;
 
         private readonly Dictionary<Vector2Int, GameObject> loadedChunks = new();
-        private Vector2Int lastPlayerChunk;
+        private Vector2Int lastPlayerChunk = new Vector2Int(-999, -999);
 
         private void Start()
         {
             if (player == null)
             {
-                if (Camera.main != null)
+                var playerObj = GameObject.FindWithTag("Player");
+                if (playerObj != null)
                 {
-                    player = Camera.main.transform;
+                    player = playerObj.transform;
                 }
             }
 
-            if (player != null)
-            {
-                UpdateWorldAroundPlayer();
-            }
+            UpdateWorldAroundPlayer();
         }
 
         private void Update()
@@ -51,13 +49,29 @@ namespace VoxelPrototype
             }
         }
 
+        public void SetPlayer(Transform targetPlayer)
+        {
+            player = targetPlayer;
+            lastPlayerChunk = new Vector2Int(-999, -999);
+            UpdateWorldAroundPlayer();
+        }
+
         private void UpdateWorldAroundPlayer()
         {
+            if (player == null)
+            {
+                return;
+            }
+
+            Vector2Int referenceChunk = new Vector2Int(
+                Mathf.FloorToInt(player.position.x / chunkSize),
+                Mathf.FloorToInt(player.position.z / chunkSize));
+
             for (int x = -renderRadius; x <= renderRadius; x++)
             {
                 for (int z = -renderRadius; z <= renderRadius; z++)
                 {
-                    Vector2Int chunkCoord = new Vector2Int(lastPlayerChunk.x + x, lastPlayerChunk.y + z);
+                    Vector2Int chunkCoord = new Vector2Int(referenceChunk.x + x, referenceChunk.y + z);
                     if (!loadedChunks.ContainsKey(chunkCoord))
                     {
                         GenerateChunk(chunkCoord.x, chunkCoord.y);

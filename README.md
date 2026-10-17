@@ -1,65 +1,59 @@
-# Voxel Survival 32 — Unity Prototype
+# Voxel Survival 32
 
-This repository contains a playable Unity prototype scaffold for a 3D voxel survival game with:
+This repository contains a playable Unity prototype foundation for a 3D voxel survival game with:
 - procedural chunk-based terrain
 - survival loop: health + hunger + crafting
-- host-client multiplayer skeleton using Mirror
+- host-client multiplayer prototype scaffold using Mirror
 - boss encounter prototype
-- simple combat and world generation
+- simple combat and resource gathering
 
-Important: This is a prototype foundation, not a polished AAA game. It is meant to be a solid starting point for further iteration.
+This is a prototype foundation, not a polished AAA game. It is a solid starting point for further iteration.
 
-## Features included in the prototype
-- Voxel world generator with chunk iteration around the player
-- Player movement, sprinting, jumping, camera follow
+## Included prototype systems
+- Voxel world generation with chunk iteration around the player
+- Player movement, jumping, sprinting, and follow camera
 - Health and hunger system
-- Basic crafting system with simple recipes
-- Melee combat
-- Boss controller and basic boss AI
-- Mirror networking bootstrap for host-client play
-- Documentation for setup and next-steps
+- Basic crafting system with item recipes
+- Harvestable resource nodes for wood, stone, and fiber
+- Melee combat and boss AI prototype
+- Mirror bootstrap script for host-client development
+- Game bootstrap that creates world/player/boss at runtime
 
 ## Unity version
 - Unity 2022.3 LTS
 
+## Install Mirror
+Before testing multiplayer, install Mirror in the Unity project through Package Manager or through the official Mirror Git package, depending on your setup.
+
 ## How to open the project
 1. Install Unity Hub and Unity 2022.3 LTS.
-2. Clone or download this repo.
-3. Open the folder as a Unity project.
-4. In Unity Package Manager, install Mirror from the official package source or Git package URL.
-5. Add a new scene called `Game`.
-6. Create a default `NetworkManager` and assign the `Player` prefab.
-7. Drag `VoxelWorldGenerator` and `MirrorBootstrap` into a scene object.
-8. Press Play to test.
+2. Clone or download this repository.
+3. Open the folder as a Unity project in Unity Hub.
+4. Install Mirror and ensure the project compiles.
+5. Open or create a scene named `Game`.
+6. Press Play to run the bootstrap.
 
-## Recommended Mirror setup
-- Install Mirror via UPM.
-- Create a `NetworkManager` GameObject.
-- Use the included `MirrorBootstrap` script to start a host automatically in editor testing.
-- Assign a `Player` prefab with `PlayerController` + `SurvivalSystem` + `PlayerCombat`.
-- Spawn the `Boss` via a GameObject with `BossController`.
+## Runtime bootstrap
+The `GameBootstrap` script automatically creates:
+- a VoxelWorldGenerator
+- a Player object with CharacterController, PlayerController, SurvivalSystem, and PlayerCombat
+- a Boss object with BossController
+- a CraftingSystem object
 
-## Main scripts
-- `Assets/Scripts/World/VoxelWorldGenerator.cs`
-- `Assets/Scripts/Player/PlayerController.cs`
-- `Assets/Scripts/Player/SurvivalSystem.cs`
-- `Assets/Scripts/Combat/PlayerCombat.cs`
-- `Assets/Scripts/Combat/BossController.cs`
-- `Assets/Scripts/Systems/CraftingSystem.cs`
-- `Assets/Scripts/Network/MirrorBootstrap.cs`
+This means the prototype can begin without a manually assembled scene for early testing.
 
-## Notes
-- The world generator is chunk-based and procedural, but intentionally lightweight for prototype use.
-- Boss logic is intentionally simple so it is easy to expand.
-- Since this is a prototype, you will need to assign prefabs and scene objects manually in the editor to fully test gameplay.
+## Important notes
+- The world generator is intentionally simple and is designed for prototype iteration, not large-scale optimization.
+- The boss is a combat prototype with melee and ranged attack logic.
+- Multiplayer logic is intentionally kept lightweight for the prototype stage. Mirror is configured as the foundation for extension.
+- For large online worlds or 32-player sessions, you should upgrade to proper chunk streaming, server-authoritative logic, object pooling, and a real room/lobby system.
 
-## Suggested next milestones
-1. Add proper voxel block pooling and chunk unload management.
-2. Add crafting UI and inventory UI.
-3. Add fish/food gathering and resource nodes.
-4. Replace fake boss AI with attack patterns and arena logic.
-5. Add a lobby system and room management.
-6. Introduce world streaming for larger scale open world.
+## Recommended next upgrades
+1. Replace cube-per-block generation with mesh chunk generation.
+2. Add a visible HUD for health, hunger, inventory, and crafting.
+3. Implement server-authoritative Mirror networking for the player and boss state.
+4. Add a lobby room manager and matchmaking.
+5. Add more world biomes, resources, and bosses.
 
 ## License
 MIT
